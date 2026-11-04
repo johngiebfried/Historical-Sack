@@ -45,7 +45,7 @@ export function totals(content, run) {
   for (const { question, choice } of choices(content, run)) {
     marks += choice.marks
     fama += choice.fama
-    nefas += choice.nefas
+    nefas += choice.nefas ?? 0 // absent from the student page's data, which never shows it
     if (choice.kind && choice.item) items.push({ kind: choice.kind, name: choice.item, tags: choice.tags, from: question.id })
     if (question.card) items.push({ kind: 'card', name: question.card, tags: [], from: question.id })
   }

@@ -12,7 +12,7 @@ import { checkChar } from './checkchar.js'
 import { newRun, pick, totals } from './run.js'
 
 const RESULT = /^(\d{2})([A-Z])(\d)([A-D]{3})-(\d{1,6})-([0-9A-Z])$/
-const JOIN = /^(\d{2})([A-Z])(\d)-([0-9A-Z])$/
+const JOIN = /^(\d{2})([A-Z])(\d)-?([0-9A-Z])$/ // the dash is optional: students type a space, or nothing
 const LEGACY = /^\d{2}[PBGMR][1-6][A-D]{3}(-\d+)?$/
 
 /** Upper-case, drop spaces, and read O as 0 and I as 1: no code contains either letter. */
@@ -50,7 +50,7 @@ export function decodeJoin(code, content, roster) {
   if (checkChar(`${cc}${region}${pos}`) !== check) return fail('check', 'The check letter does not match. Look for a mistyped character.')
   const characterId = Number(cc)
   const position = Number(pos)
-  return slotErrors(content, roster, characterId, region, position) ?? { ok: true, code: c, characterId, region, position }
+  return slotErrors(content, roster, characterId, region, position) ?? { ok: true, code: `${cc}${region}${pos}-${check}`, characterId, region, position }
 }
 
 export function decodeResult(code, content, roster) {

@@ -15,17 +15,36 @@ if (problems.length) {
   for (const p of problems) console.error('  - ' + p)
   process.exit(1)
 }
-const out = path.join(ROOT, 'src', 'data', 'sack.json')
-const json = JSON.stringify(data, null, 1) + '\n'
+/*
+ * Two files. sack.json is everything, for the instructor's console and the checks.
+ * sack-student.json is what the student page ships: no nefas (the IM: never revealed)
+ * and no instructor notes, so neither can be read out of the page's code.
+ */
+const without = (o, keys) => Object.fromEntries(Object.entries(o).filter(([k]) => !keys.includes(k)))
+export const INSTRUCTOR_ONLY = { question: ['source', 'gm', 'file', 'line'], choice: ['nefas'] }
+const student = {
+  ...data,
+  questions: data.questions.map((q) => ({
+    ...without(q, INSTRUCTOR_ONLY.question),
+    choices: q.choices.map((c) => without(c, INSTRUCTOR_ONLY.choice)),
+  })),
+}
+const outputs = [
+  ['sack.json', JSON.stringify(data, null, 1) + '\n'],
+  ['sack-student.json', JSON.stringify(student) + '\n'],
+]
 
 if (process.argv.includes('--verify')) {
-  const current = fs.existsSync(out) ? fs.readFileSync(out, 'utf8') : ''
-  if (current !== json) {
-    console.error('build-content: src/data/sack.json is out of date with content/. Run `npm run content`.')
-    process.exit(1)
+  for (const [name, json] of outputs) {
+    const file = path.join(ROOT, 'src', 'data', name)
+    const current = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
+    if (current !== json) {
+      console.error(`build-content: src/data/${name} is out of date with content/. Run \`npm run content\`.`)
+      process.exit(1)
+    }
   }
-  console.log(`build-content: data file matches content (${data.questions.length} scenes)`)
+  console.log(`build-content: data files match content (${data.questions.length} scenes)`)
 } else {
-  fs.writeFileSync(out, json)
-  console.log(`build-content: wrote ${data.questions.length} scenes to src/data/sack.json`)
+  for (const [name, json] of outputs) fs.writeFileSync(path.join(ROOT, 'src', 'data', name), json)
+  console.log(`build-content: wrote ${data.questions.length} scenes to src/data/sack.json and sack-student.json`)
 }

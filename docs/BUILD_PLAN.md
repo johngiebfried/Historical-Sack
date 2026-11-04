@@ -170,6 +170,8 @@ These follow the lessons in the siege handoff: whole runs, not just units, and c
 
 Each phase ends with something you can open and a test it must pass.
 
+**Where it stands:** phase 1 done and deployed. Phase 2 built: all 41 scenes pass the browser playthroughs (`npm run check:play`), and eight broken copies of the page are each caught. Still open for phase 2: the check on a real phone.
+
 | Phase | Deliverable | Exit test |
 |---|---|---|
 | **0. Rulings** | Your decisions in §11 | none |

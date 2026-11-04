@@ -26,7 +26,7 @@ const MUTANTS = [
   ['check letter ignores position weighting', 'src/core/checkchar.js', once('factor = factor === 2 ? 1 : 2', 'factor = 1'), ['check-codes']],
   ['check letter is constant', 'src/core/checkchar.js', once('return ALPHABET[(n - (sum % n)) % n]', "return 'A'"), ['check-codes']],
   ['silver over the collected amount accepted', 'src/core/codes.js', once('if (silver > t.collected) {', 'if (false) {'), ['check-codes']],
-  ['nefas not added up', 'src/core/run.js', once('nefas += choice.nefas', 'nefas += 0'), ['check-codes']],
+  ['nefas not added up', 'src/core/run.js', once('nefas += choice.nefas ?? 0', 'nefas += 0'), ['check-codes']],
   ['collected silver can go negative', 'src/core/run.js', once('collected: Math.max(0, marks)', 'collected: marks'), ['check-codes']],
   ['Blachernae played in the ordinary order', 'src/core/content.js', once("return r.order.map((s) => (s === 'U'", "return ['Q1', 'Q2', 'U'].map((s) => (s === 'U'"), ['check-codes']],
   ['overflow goes to position 5', 'src/core/claims.js', once('return allFull(state) ? 6 : null', 'return allFull(state) ? 5 : null'), ['check-claims']],
@@ -41,6 +41,9 @@ const MUTANTS = [
   ['an exclusive prize at position 6', 'content/03-great-palace.md', inSection('## G-6 ', '`marks 100 · fama 0 · nefas 0`', '`marks 100 · fama 0 · nefas 0 · prize: A Silk Hanging`'), ['check-content']],
   ['shared nefas above +2', 'content/05-golden-horn.md', inSection('## H-Q1 ', 'nefas +2`', 'nefas +3`'), ['check-content']],
   ['a banned phrase in a prompt', 'content/04-hagia-sophia.md', inSection('## S-Q2 ', 'sick Greeks', 'sniveling Greeks'), ['check-content']],
+  ['join code refused without its dash', 'src/core/codes.js', once('(\\d)-?([0-9A-Z])$/', '(\\d)-([0-9A-Z])$/'), ['check-codes']],
+  ['nefas left in the student page data', 'src/data/sack-student.json', once('"key":"A"', '"key":"A","nefas":1'), ['check-assets']],
+  ['a scene with no stop on the map', 'src/data/map.json', once('"S-6": {', '"S-7": {'), ['check-assets']],
   ['content edited but the data file not rebuilt', 'content/02-blachernae.md', inSection('## B-4 ', 'roast meats', 'roast birds'), ['build-content --verify']],
 ]
 

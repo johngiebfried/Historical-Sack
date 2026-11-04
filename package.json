@@ -11,8 +11,10 @@
     "lint": "oxlint",
     "content": "node scripts/build-content.mjs",
     "balance": "node scripts/balance-report.mjs",
-    "check": "node scripts/build-content.mjs --verify && node scripts/check-content.mjs && node scripts/check-codes.mjs && node scripts/check-claims.mjs && node scripts/check-tally.mjs && node scripts/check-sim.mjs && node scripts/check-mutants.mjs",
-    "check:release": "node scripts/check-content.mjs --release"
+    "check": "node scripts/build-content.mjs --verify && node scripts/check-content.mjs && node scripts/check-codes.mjs && node scripts/check-claims.mjs && node scripts/check-tally.mjs && node scripts/check-sim.mjs && node scripts/check-assets.mjs && node scripts/check-mutants.mjs",
+    "check:release": "node scripts/check-content.mjs --release",
+    "check:play": "vite build && node scripts/check-play.mjs",
+    "check:play-mutants": "node scripts/check-play-mutants.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

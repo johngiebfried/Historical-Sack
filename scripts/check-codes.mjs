@@ -114,6 +114,10 @@ for (let id = 1; id <= 52; id += 3) {
     const j = encodeJoin({ characterId: id, region, position })
     const d = decodeJoin(j, content, roster)
     t.eq(d.ok && [d.characterId, d.region, d.position], [id, region, position], `join ${j}`)
+    // However the student types it, the code it is saved under is the same.
+    for (const typed of [j.replace('-', ''), j.replace('-', ' ').toLowerCase(), ` ${j.toLowerCase()} `]) {
+      t.eq(decodeJoin(typed, content, roster).code, j, `join typed as "${typed}"`)
+    }
   }
 }
 t.eq(decodeJoin('05H2-' + (encodeJoin({ characterId: 5, region: 'H', position: 2 }).endsWith('A') ? 'B' : 'A'), content, roster).kind, 'check', 'a join code with a wrong check letter is refused')
