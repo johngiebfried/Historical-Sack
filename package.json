@@ -1,0 +1,26 @@
+{
+  "name": "historical-sack",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The Classic Sack of Constantinople for the Reacting to the Past Fourth Crusade game: Map and Leaf for students, a console for the instructor.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "oxlint",
+    "content": "node scripts/build-content.mjs",
+    "balance": "node scripts/balance-report.mjs",
+    "check": "node scripts/build-content.mjs --verify && node scripts/check-content.mjs && node scripts/check-codes.mjs && node scripts/check-claims.mjs && node scripts/check-tally.mjs && node scripts/check-sim.mjs && node scripts/check-mutants.mjs",
+    "check:release": "node scripts/check-content.mjs --release"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.0",
+    "oxlint": "^1.79.0",
+    "vite": "^8.2.2"
+  }
+}
